@@ -10,4 +10,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
     init() {
         this.setPosition(GAME_WIDTH / 2, 100);
     }
+
+    update() {
+        console.log("enemyUpdate");
+    }
 }

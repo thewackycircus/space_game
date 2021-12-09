@@ -10,4 +10,15 @@ class Player extends Phaser.GameObjects.Sprite {
     init() {
         this.setPosition(GAME_WIDTH / 2, GAME_HEIGHT - 100);
     }
+
+    update() {
+        
+        // player move left and right
+        if (moveControls.left.isDown) {
+            this.x -= 4;
+        } 
+        if (moveControls.right.isDown) {
+            this.x += 4;
+        }
+    }
 }
