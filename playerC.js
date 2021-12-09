@@ -12,13 +12,19 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        
+
         // player move left and right
         if (moveControls.left.isDown) {
-            this.x -= 4;
+            // left wall collission
+            if (this.x > 0 + this.width/2) {
+                this.x -= 4;
+            }
         } 
         if (moveControls.right.isDown) {
-            this.x += 4;
+            // right wall collission
+            if (this.x < GAME_WIDTH - this.width/2) {
+                this.x += 4;
+            }
         }
     }
 }
