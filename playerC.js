@@ -2,11 +2,9 @@ class Player extends Phaser.GameObjects.Sprite {
 
     constructor (scene, texture) {
         super(scene, 0, 0, texture);
-        this.setOrigin(0.5, 0.5);
-        scene.add.existing(this);
-        this.init();
 
-        this.scene = scene;
+        // initialise
+        this.init();
 
         // firing variables
         this.bulletGroup = scene.add.group();
@@ -15,12 +13,27 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     init() {
-        this.setPosition(GAME_WIDTH / 2, GAME_HEIGHT - 100);
+        
+        // creating a physics object for the player
+        this.obj = this.scene.physics.add.image(GAME_WIDTH/2, GAME_HEIGHT - 100, this.texture);
+        this.obj.setCollideWorldBounds(true);
     }
 
     update() {
 
-        this.movement();
+        // movement
+        if (moveControls.left.isDown) {
+            this.obj.body.setVelocity(-400, 0);
+        } else if (moveControls.right.isDown){
+            this.obj.body.setVelocity(400, 0);
+        } else {
+            this.obj.body.setVelocity(0, 0);
+        }
+
+        // fire
+        if (fireButton.isDown) {
+            this.fire(this.bulletGroup);
+        }
 
         // putting bullets into an arrya so i can update them
         let bullet_ary = this.bulletGroup.getChildren();
@@ -29,30 +42,12 @@ class Player extends Phaser.GameObjects.Sprite {
         });
     }
 
-    movement() {
-        // player move left and right
-        if (moveControls.left.isDown) {
-            // left wall collission
-            if (this.x > 0 + this.width/2) {
-                this.x -= 4;
-            }
-        } 
-        if (moveControls.right.isDown) {
-            // right wall collission
-            if (this.x < GAME_WIDTH - this.width/2) {
-                this.x += 4;
-            }
-        }
-        if (fireButton.isDown) {
-            this.fire(this.bulletGroup);
-        }
-    }
-
     fire(bulletGroup) {
+
         // if enough time has passed
         if (this.scene.time.now > this.nextBulletTime) {
             // initializing new bullet
-            bulletGroup.add(new Bullet(this.scene, this.x, this.y - this.height/2, 'laserBullet_img'));
+            bulletGroup.add(new Bullet(this.scene, this.obj.body.x + this.width/2, this.obj.body.y, 'laserBullet_img'));
 
             //resetting nextbulletTime to hold delay between bullets firing
             this.nextBulletTime = this.scene.time.now + this.fireDelay;
