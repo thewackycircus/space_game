@@ -5,6 +5,13 @@ class Player extends Phaser.GameObjects.Sprite {
         this.setOrigin(0.5, 0.5);
         scene.add.existing(this);
         this.init();
+
+        this.scene = scene;
+
+        // firing variables
+        this.bulletGroup = scene.add.group();
+        this.nextBulletTime = 0;
+        this.fireDelay = 200;
     }
 
     init() {
@@ -13,6 +20,16 @@ class Player extends Phaser.GameObjects.Sprite {
 
     update() {
 
+        this.movement();
+
+        // putting bullets into an arrya so i can update them
+        let bullet_ary = this.bulletGroup.getChildren();
+        bullet_ary.forEach(bullet => {
+            bullet.update();
+        });
+    }
+
+    movement() {
         // player move left and right
         if (moveControls.left.isDown) {
             // left wall collission
@@ -25,6 +42,20 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.x < GAME_WIDTH - this.width/2) {
                 this.x += 4;
             }
+        }
+        if (fireButton.isDown) {
+            this.fire(this.bulletGroup);
+        }
+    }
+
+    fire(bulletGroup) {
+        // if enough time has passed
+        if (this.scene.time.now > this.nextBulletTime) {
+            // initializing new bullet
+            bulletGroup.add(new Bullet(this.scene, this.x, this.y - this.height/2, 'laserBullet_img'));
+
+            //resetting nextbulletTime to hold delay between bullets firing
+            this.nextBulletTime = this.scene.time.now + this.fireDelay;
         }
     }
 }
