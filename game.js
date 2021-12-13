@@ -41,17 +41,23 @@ function create() {
     moveControls = this.input.keyboard.createCursorKeys();
     fireButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-    // instantiating game objects into an array so they can be easily updated in the update function
-    updatableObjs = [
-        player_spr = new Player (this, 'player_img'),
-        enemy_spr = new Enemy (this, 'enemy_img')
-    ];
+    // instantiating enemies into a group
+    enemyGroup = this.add.group();
+    enemyGroup.add(new Enemy(this, GAME_WIDTH/2, 100, 'enemy_img'));
+    enemyGroup.add(new Enemy(this, GAME_WIDTH/3, 100, 'enemy_img'));
+
+    // instantiating player
+    player_spr = new Player (this, 'player_img');
+
+    // creating event listender for collissions
+    this.physics.add.collider(player_spr.bulletGroup, enemyGroup, function(bullet, enemy){
+        bullet.destroy();
+        enemy.destroy();
+    });
 }
 
 // called each frame
 function update() {
     // updating all updatable game object
-    updatableObjs.forEach(obj => {
-        obj.update();
-    })
+    player_spr.update();
 }

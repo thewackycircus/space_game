@@ -1,10 +1,12 @@
 class Player extends Phaser.GameObjects.Sprite {
 
     constructor (scene, texture) {
-        super(scene, 0, 0, texture);
+        super(scene, GAME_WIDTH/2, GAME_HEIGHT - 100, texture);
 
-        // initialise
-        this.init();
+        // adding this to scene and physics
+        this.scene.add.existing(this);
+        this.scene.physics.add.existing(this);
+        this.body.setCollideWorldBounds(true);
 
         // firing variables
         this.bulletGroup = scene.add.group();
@@ -12,22 +14,15 @@ class Player extends Phaser.GameObjects.Sprite {
         this.fireDelay = 200;
     }
 
-    init() {
-        
-        // creating a physics object for the player
-        this.obj = this.scene.physics.add.image(GAME_WIDTH/2, GAME_HEIGHT - 100, this.texture);
-        this.obj.setCollideWorldBounds(true);
-    }
-
     update() {
 
         // movement
         if (moveControls.left.isDown) {
-            this.obj.body.setVelocity(-400, 0);
+            this.body.setVelocity(-400, 0);
         } else if (moveControls.right.isDown){
-            this.obj.body.setVelocity(400, 0);
+            this.body.setVelocity(400, 0);
         } else {
-            this.obj.body.setVelocity(0, 0);
+            this.body.setVelocity(0, 0);
         }
 
         // fire
@@ -35,7 +30,7 @@ class Player extends Phaser.GameObjects.Sprite {
             this.fire(this.bulletGroup);
         }
 
-        // putting bullets into an arrya so i can update them
+        // putting bullets into an array so i can update them
         let bullet_ary = this.bulletGroup.getChildren();
         bullet_ary.forEach(bullet => {
             bullet.update();
@@ -47,7 +42,7 @@ class Player extends Phaser.GameObjects.Sprite {
         // if enough time has passed
         if (this.scene.time.now > this.nextBulletTime) {
             // initializing new bullet
-            bulletGroup.add(new Bullet(this.scene, this.obj.body.x + this.width/2, this.obj.body.y, 'laserBullet_img'));
+            bulletGroup.add(new Bullet(this.scene, this.body.x + this.width/2, this.body.y, 'laserBullet_img'));
 
             //resetting nextbulletTime to hold delay between bullets firing
             this.nextBulletTime = this.scene.time.now + this.fireDelay;

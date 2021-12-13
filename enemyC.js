@@ -1,19 +1,15 @@
 class Enemy extends Phaser.GameObjects.Sprite {
 
-    constructor (scene, texture) {
-        super(scene, 0, 0, texture);
+    constructor (scene, x, y, texture) {
+        super(scene, x, y, texture);
 
-        // initialise
-        this.init();
-    }
-
-    init() {
-
-        // creating a physics object for the enemy
-        this.obj = this.scene.physics.add.image(GAME_WIDTH / 2, 100, this.texture);
+        // adding this to scene and physics
+        this.scene.add.existing(this);
+        this.scene.physics.add.existing(this);
     }
 
     update() {
+        // debug
         console.log("enemyUpdate");
     }
 }
