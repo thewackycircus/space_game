@@ -1,6 +1,6 @@
 // game consts
-let GAME_WIDTH = 400
-let GAME_HEIGHT = 500
+let GAME_WIDTH = 480
+let GAME_HEIGHT = 576
 
 // phaser game config
 let config = {
@@ -26,7 +26,8 @@ let game = new Phaser.Game(config);
 
 // used to load assets before game start up
 function preload() {
-    this.load.image('background_img', 'assets/gameBg.png');
+    this.load.image('background_img', 'assets/background.png');
+    this.load.image('stars_img', 'assets/stars.png');
     this.load.image('player_img', 'assets/player.png');
     this.load.image('laserBullet_img', 'assets/laserBullet.png');
     this.load.image('enemy_img', 'assets/enemy.png');
@@ -35,7 +36,10 @@ function preload() {
 
 // used to create objects on game start up
 function create() {
-    background_spr = this.add.sprite(0, -GAME_HEIGHT, 'background_img').setOrigin(0, 0);
+
+    //background
+    background_spr = this.add.sprite(0, 0, 'background_img').setOrigin(0, 0);
+    stars_spr = this.add.sprite(0, 0, 'stars_img').setOrigin(0, 0);
 
     // controls
     moveControls = this.input.keyboard.createCursorKeys();
@@ -58,6 +62,12 @@ function create() {
 
 // called each frame
 function update() {
+    // moving stars down
+    stars_spr.y += 2;
+    if (stars_spr.y > 0) {
+        stars_spr.y = -GAME_HEIGHT;
+    }
+
     // updating all updatable game object
     player_spr.update();
 }
