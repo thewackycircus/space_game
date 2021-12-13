@@ -16,16 +16,13 @@ class Player extends Phaser.GameObjects.Sprite {
 
     update() {
 
-        // if player exists. TEMPORARY SOLUTION TO CRASH THAT OCCURS WHEN PLAYER IS DESTROYED
-        if (this.body !== undefined) {
-            // movement
-            if (moveControls.left.isDown) {
-                this.body.setVelocity(-400, 0);
-            } else if (moveControls.right.isDown) {
-                this.body.setVelocity(400, 0);
-            } else {
-                this.body.setVelocity(0, 0);
-            }
+        // movement
+        if (moveControls.left.isDown) {
+            this.body.setVelocity(-400, 0);
+        } else if (moveControls.right.isDown) {
+            this.body.setVelocity(400, 0);
+        } else {
+            this.body.setVelocity(0, 0);
         }
 
         // fire

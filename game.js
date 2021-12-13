@@ -21,6 +21,7 @@ let config = {
 };
 
 let game = new Phaser.Game(config);
+let isRunning = true;
 
 // used to load assets before game start up
 function preload() {
@@ -49,6 +50,8 @@ function create() {
     // instantiating enemies into a group
     enemyGroup = this.add.group();
     enemyGroup.add(new Enemy(this, GAME_WIDTH/2, 100, 'enemy_img', player_spr));
+    enemyGroup.add(new Enemy(this, GAME_WIDTH/4, 100, 'enemy_img', player_spr));
+    enemyGroup.add(new Enemy(this, (GAME_WIDTH/4)*3, 100, 'enemy_img', player_spr));
 
     // creating event listender for collisions
     collisions(this);
@@ -69,25 +72,31 @@ function collisions(scene) {
         // checking all bullets associated with said enemy
         scene.physics.add.collider(player_spr, enemy.bulletGroup, function(player, bullet) {
             bullet.destroy();
+
+            // game over
             player.destroy();
+            isRunning = false;
         });
     });
 }
 
 // called each frame
 function update() {
-    // moving stars down
-    stars_spr.y += 2;
-    if (stars_spr.y > 0) {
-        stars_spr.y = -GAME_HEIGHT;
+
+    if(isRunning) {
+        // moving stars down
+        stars_spr.y += 2;
+        if (stars_spr.y > 0) {
+            stars_spr.y = -GAME_HEIGHT;
+        }
+
+        // updating game objects
+        player_spr.update();
+
+        // putting enemies into an array so they can be updated
+        let enemy_ary = enemyGroup.getChildren();
+        enemy_ary.forEach(enemy => {
+            enemy.update();
+        });
     }
-
-    // updating game objects
-    player_spr.update();
-
-    // putting enemies into an array so they can be updated
-    let enemy_ary = enemyGroup.getChildren();
-    enemy_ary.forEach(enemy => {
-        enemy.update();
-    });
 }
