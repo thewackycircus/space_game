@@ -22,8 +22,6 @@ let config = {
 
 let game = new Phaser.Game(config);
 
-// PHASER FUNCTIONS
-
 // used to load assets before game start up
 function preload() {
     this.load.image('background_img', 'assets/background.png');
@@ -45,18 +43,34 @@ function create() {
     moveControls = this.input.keyboard.createCursorKeys();
     fireButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-    // instantiating enemies into a group
-    enemyGroup = this.add.group();
-    enemyGroup.add(new Enemy(this, GAME_WIDTH/2, 100, 'enemy_img'));
-    enemyGroup.add(new Enemy(this, GAME_WIDTH/3, 100, 'enemy_img'));
-
     // instantiating player
     player_spr = new Player (this, 'player_img');
 
-    // creating event listender for collissions
-    this.physics.add.collider(player_spr.bulletGroup, enemyGroup, function(bullet, enemy){
+    // instantiating enemies into a group
+    enemyGroup = this.add.group();
+    enemyGroup.add(new Enemy(this, GAME_WIDTH/2, 100, 'enemy_img', player_spr));
+
+    // creating event listender for collisions
+    collisions(this);
+}
+
+function collisions(scene) {
+    
+    // playerBullets x enemies
+    scene.physics.add.collider(player_spr.bulletGroup, enemyGroup, function(bullet, enemy){
         bullet.destroy();
         enemy.destroy();
+    });
+
+    // enemy bullets vs player
+    let enemy_ary = enemyGroup.getChildren();
+    // checking each enemy
+    enemy_ary.forEach(function(enemy) {
+        // checking all bullets associated with said enemy
+        scene.physics.add.collider(player_spr, enemy.bulletGroup, function(player, bullet) {
+            bullet.destroy();
+            player.destroy();
+        });
     });
 }
 
@@ -68,6 +82,12 @@ function update() {
         stars_spr.y = -GAME_HEIGHT;
     }
 
-    // updating all updatable game object
+    // updating game objects
     player_spr.update();
+
+    // putting enemies into an array so they can be updated
+    let enemy_ary = enemyGroup.getChildren();
+    enemy_ary.forEach(enemy => {
+        enemy.update();
+    });
 }

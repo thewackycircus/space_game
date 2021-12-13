@@ -16,13 +16,16 @@ class Player extends Phaser.GameObjects.Sprite {
 
     update() {
 
-        // movement
-        if (moveControls.left.isDown) {
-            this.body.setVelocity(-400, 0);
-        } else if (moveControls.right.isDown){
-            this.body.setVelocity(400, 0);
-        } else {
-            this.body.setVelocity(0, 0);
+        // if player exists. TEMPORARY SOLUTION TO CRASH THAT OCCURS WHEN PLAYER IS DESTROYED
+        if (this.body !== undefined) {
+            // movement
+            if (moveControls.left.isDown) {
+                this.body.setVelocity(-400, 0);
+            } else if (moveControls.right.isDown) {
+                this.body.setVelocity(400, 0);
+            } else {
+                this.body.setVelocity(0, 0);
+            }
         }
 
         // fire
@@ -30,7 +33,7 @@ class Player extends Phaser.GameObjects.Sprite {
             this.fire(this.bulletGroup);
         }
 
-        // putting bullets into an array so i can update them
+        // putting bullets into an array so they can be updated
         let bullet_ary = this.bulletGroup.getChildren();
         bullet_ary.forEach(bullet => {
             bullet.update();
@@ -41,8 +44,9 @@ class Player extends Phaser.GameObjects.Sprite {
 
         // if enough time has passed
         if (this.scene.time.now > this.nextBulletTime) {
+
             // initializing new bullet
-            bulletGroup.add(new Bullet(this.scene, this.body.x + this.width/2, this.body.y, 'laserBullet_img'));
+            bulletGroup.add(new Bullet(this.scene, this.body.x + this.width/2, this.body.y, 'laserBullet_img', -400));
 
             //resetting nextbulletTime to hold delay between bullets firing
             this.nextBulletTime = this.scene.time.now + this.fireDelay;
