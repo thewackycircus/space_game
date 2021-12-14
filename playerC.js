@@ -60,4 +60,12 @@ class Player extends Phaser.GameObjects.Sprite {
             this.nextBulletTime = this.scene.time.now + this.fireDelay;
         }
     }
+
+    getLives () {
+        return this.lives;
+    }
+
+    setLives(val) {
+        this.lives += val;
+    }
 }

@@ -81,7 +81,7 @@ function collisions(scene) {
         scene.physics.add.collider(player_spr, enemy.bulletGroup, function(player, bullet) {
             bullet.destroy();
 
-            player.lives -= 1;
+            player.setLives(-1);
         });
     });
 }
