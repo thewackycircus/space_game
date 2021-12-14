@@ -50,6 +50,8 @@ function create() {
     // instantiating text
     scoreText = this.add.text(25, GAME_HEIGHT - 50, "SCORE: ", {fontFamily: 'Georgia'});
     scoreText.scale = 1.5;
+    livesText = this.add.text(GAME_WIDTH - 120, GAME_HEIGHT - 50, "LIVES: ", {fontFamily: 'Georgia'});
+    livesText.scale = 1.5;
 
     // instantiating player
     player_spr = new Player (this, 'player_img');
@@ -107,5 +109,6 @@ function update() {
 
         // updating score text
         scoreText.text = "SCORE: " + score;
+        livesText.text = "LIVES: " + player_spr.getLives();
     }
 }
