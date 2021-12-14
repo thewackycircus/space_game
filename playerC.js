@@ -12,6 +12,9 @@ class Player extends Phaser.GameObjects.Sprite {
         this.bulletGroup = scene.add.group();
         this.nextBulletTime = 0;
         this.fireDelay = 200;
+
+        // config variables
+        this.lives = 3;
     }
 
     update() {
@@ -35,6 +38,14 @@ class Player extends Phaser.GameObjects.Sprite {
         bullet_ary.forEach(bullet => {
             bullet.update();
         });
+
+        // check to see if player is alive
+        if(this.lives <= 0) {
+            // game over
+            console.log(this.lives);
+            this.destroy();
+            isRunning = false;
+        }
     }
 
     fire(bulletGroup) {

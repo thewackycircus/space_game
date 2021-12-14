@@ -10,7 +10,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            debug: false
         }
     },
     scene: {
@@ -21,7 +21,10 @@ let config = {
 };
 
 let game = new Phaser.Game(config);
+
+// runtime variables
 let isRunning = true;
+let score = 0;
 
 // used to load assets before game start up
 function preload() {
@@ -44,6 +47,10 @@ function create() {
     moveControls = this.input.keyboard.createCursorKeys();
     fireButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+    // instantiating text
+    scoreText = this.add.text(25, GAME_HEIGHT - 50, "SCORE: ", {fontFamily: 'Georgia'});
+    scoreText.scale = 1.5;
+
     // instantiating player
     player_spr = new Player (this, 'player_img');
 
@@ -63,6 +70,7 @@ function collisions(scene) {
     scene.physics.add.collider(player_spr.bulletGroup, enemyGroup, function(bullet, enemy){
         bullet.destroy();
         enemy.destroy();
+        score += 10;
     });
 
     // enemy bullets vs player
@@ -73,9 +81,7 @@ function collisions(scene) {
         scene.physics.add.collider(player_spr, enemy.bulletGroup, function(player, bullet) {
             bullet.destroy();
 
-            // game over
-            player.destroy();
-            isRunning = false;
+            player.lives -= 1;
         });
     });
 }
@@ -98,5 +104,8 @@ function update() {
         enemy_ary.forEach(enemy => {
             enemy.update();
         });
+
+        // updating score text
+        scoreText.text = "SCORE: " + score;
     }
 }
