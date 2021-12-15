@@ -42,7 +42,6 @@ class Player extends Phaser.GameObjects.Sprite {
         // check to see if player is alive
         if(this.lives <= 0) {
             // game over
-            console.log(this.lives);
             this.destroy();
             isRunning = false;
         }

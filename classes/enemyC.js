@@ -16,7 +16,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
         // firing variables
         this.bulletGroup = scene.add.group();
         this.nextBulletTime = 0;
-        this.fireDelay = 400;
+        this.fireDelay = 600;
+
+        //config variables
+        this.score = 10;
 
         //anims
         this.anims.create({
@@ -72,10 +75,14 @@ class Enemy extends Phaser.GameObjects.Sprite {
         // if enough time has passed
         if (this.scene.time.now > this.nextBulletTime) {
             // initializing new bullet
-            this.bulletGroup.add(new Bullet(this.scene, this.body.x + this.width/2, this.body.y, 'laserBullet_img', 400));
+            this.bulletGroup.add(new Bullet(this.scene, this.body.x + this.width/2, this.body.y, 'enemyBullet_img', 400));
 
             //resetting nextbulletTime to hold delay between bullets firing
             this.nextBulletTime = this.scene.time.now + this.fireDelay;
         }
+    }
+
+    getScore() {
+        return this.score;
     }
 }

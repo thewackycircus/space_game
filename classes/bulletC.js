@@ -18,8 +18,6 @@ class Bullet extends Phaser.GameObjects.Sprite {
 
         // destroy bullets if they have left screen
         if (this.body.y < -10 || this.body.y > GAME_HEIGHT + 10) {
-
-            // must destroy physics object aswell as instance of this class
             this.destroy();
         }
     }

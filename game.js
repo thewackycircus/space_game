@@ -32,9 +32,14 @@ function preload() {
     this.load.image('stars_img', 'assets/stars.png');
     this.load.image('player_img', 'assets/player.png');
     this.load.image('laserBullet_img', 'assets/laserBullet.png');
+    this.load.image('enemyBullet_img', 'assets/enemyBullet.png');
     this.load.image('asteroid_img', 'assets/asteroid.png');
     this.load.image('enemy_img', 'assets/enemy.png');
     this.load.spritesheet('enemySpawn_sh', 'assets/enemySpawn.png', {
+        frameWidth: 64,
+        frameHeight: 64
+    });
+    this.load.spritesheet('asteroid_sh', 'assets/asteroidRotation.png', {
         frameWidth: 64,
         frameHeight: 64
     });
@@ -62,37 +67,43 @@ function create() {
 
     // instantiating enemies into a group
     enemyGroup = this.add.group();
-    wave1(this);
+    enemyGroup.add(new Asteroid(this, GAME_WIDTH/4, 100, 'asteroid_img'));
+    enemyGroup.add(new Enemy(this, (GAME_WIDTH/4)*3, 100, 'enemy_img'));
+    //wave1(this);
     
     // creating event listender for collisions
     collisions(this);
 }
 
 function wave1(scene) {
-    enemyGroup.add(new Enemy(scene, GAME_WIDTH/4, 100, 'enemy_img', player_spr));
-    enemyGroup.add(new Enemy(scene, GAME_WIDTH/2, 100, 'enemy_img', player_spr));
-    enemyGroup.add(new Enemy(scene, (GAME_WIDTH/4)*3, 100, 'enemy_img', player_spr));
+    enemyGroup.add(new Enemy(scene, GAME_WIDTH/4, 100, 'enemy_img'));
+    enemyGroup.add(new Enemy(scene, GAME_WIDTH/2, 100, 'enemy_img'));
+    enemyGroup.add(new Enemy(scene, (GAME_WIDTH/4)*3, 100, 'enemy_img'));
 }
 
 function collisions(scene) {
     
-    // playerBullets x enemies
+    // playerBullets vs enemies
     scene.physics.add.collider(player_spr.bulletGroup, enemyGroup, function(bullet, enemy){
         bullet.destroy();
         enemy.destroy();
-        score += 10;
+        score += enemy.getScore();
     });
 
-    // enemy bullets vs player
-    let enemy_ary = enemyGroup.getChildren();
     // checking each enemy
+    let enemy_ary = enemyGroup.getChildren();
     enemy_ary.forEach(function(enemy) {
-        // checking all bullets associated with said enemy
+        // enemy bullets vs player
         scene.physics.add.collider(player_spr, enemy.bulletGroup, function(player, bullet) {
             bullet.destroy();
-
             player.setLives(-1);
         });
+
+        // checking if enemy has hit player
+        scene.physics.add.collider(player_spr, enemy, function(player, enemy){
+            enemy.destroy();
+            player.setLives(-1);
+        })
     });
 }
 
