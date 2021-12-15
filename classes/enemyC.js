@@ -11,12 +11,29 @@ class Enemy extends Phaser.GameObjects.Sprite {
         // direction variables
         this.dir = -1; // -1 = left, 0 = still, 1 = right
         this.changeDirTime = 0;
-        this.dirChangeDelay = 750;
+        this.dirChangeDelay = 500;
 
         // firing variables
         this.bulletGroup = scene.add.group();
         this.nextBulletTime = 0;
-        this.fireDelay = 500;
+        this.fireDelay = 400;
+
+        //anims
+        this.anims.create({
+            key: 'enemySpawn',
+            frames: this.anims.generateFrameNumbers('enemySpawn_sh', {
+                start: 0,
+                end: 11
+            }),
+            frameRate: 15,
+            repeat: 0
+        });
+
+        this.init();
+    }
+
+    init() {
+        this.anims.play('enemySpawn');
     }
 
     update() {

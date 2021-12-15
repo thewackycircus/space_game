@@ -32,8 +32,12 @@ function preload() {
     this.load.image('stars_img', 'assets/stars.png');
     this.load.image('player_img', 'assets/player.png');
     this.load.image('laserBullet_img', 'assets/laserBullet.png');
-    this.load.image('enemy_img', 'assets/enemy.png');
     this.load.image('asteroid_img', 'assets/asteroid.png');
+    this.load.image('enemy_img', 'assets/enemy.png');
+    this.load.spritesheet('enemySpawn_sh', 'assets/enemySpawn.png', {
+        frameWidth: 64,
+        frameHeight: 64
+    });
 }
 
 // used to create objects on game start up
@@ -58,12 +62,16 @@ function create() {
 
     // instantiating enemies into a group
     enemyGroup = this.add.group();
-    enemyGroup.add(new Enemy(this, GAME_WIDTH/2, 100, 'enemy_img', player_spr));
-    enemyGroup.add(new Enemy(this, GAME_WIDTH/4, 100, 'enemy_img', player_spr));
-    enemyGroup.add(new Enemy(this, (GAME_WIDTH/4)*3, 100, 'enemy_img', player_spr));
-
+    wave1(this);
+    
     // creating event listender for collisions
     collisions(this);
+}
+
+function wave1(scene) {
+    enemyGroup.add(new Enemy(scene, GAME_WIDTH/4, 100, 'enemy_img', player_spr));
+    enemyGroup.add(new Enemy(scene, GAME_WIDTH/2, 100, 'enemy_img', player_spr));
+    enemyGroup.add(new Enemy(scene, (GAME_WIDTH/4)*3, 100, 'enemy_img', player_spr));
 }
 
 function collisions(scene) {
