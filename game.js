@@ -65,46 +65,8 @@ function create() {
     // instantiating player
     player_spr = new Player (this, 'player_img');
 
-    // instantiating enemies into a group
-    enemyGroup = this.add.group();
-    enemyGroup.add(new Asteroid(this, GAME_WIDTH/4, 100, 'asteroid_img'));
-    enemyGroup.add(new Enemy(this, (GAME_WIDTH/4)*3, 100, 'enemy_img'));
-    //wave1(this);
-    
-    // creating event listender for collisions
-    collisions(this);
-}
-
-function wave1(scene) {
-    enemyGroup.add(new Enemy(scene, GAME_WIDTH/4, 100, 'enemy_img'));
-    enemyGroup.add(new Enemy(scene, GAME_WIDTH/2, 100, 'enemy_img'));
-    enemyGroup.add(new Enemy(scene, (GAME_WIDTH/4)*3, 100, 'enemy_img'));
-}
-
-function collisions(scene) {
-    
-    // playerBullets vs enemies
-    scene.physics.add.collider(player_spr.bulletGroup, enemyGroup, function(bullet, enemy){
-        bullet.destroy();
-        enemy.destroy();
-        score += enemy.getScore();
-    });
-
-    // checking each enemy
-    let enemy_ary = enemyGroup.getChildren();
-    enemy_ary.forEach(function(enemy) {
-        // enemy bullets vs player
-        scene.physics.add.collider(player_spr, enemy.bulletGroup, function(player, bullet) {
-            bullet.destroy();
-            player.setLives(-1);
-        });
-
-        // checking if enemy has hit player
-        scene.physics.add.collider(player_spr, enemy, function(player, enemy){
-            enemy.destroy();
-            player.setLives(-1);
-        })
-    });
+    // instantiating enemySpawner
+    enemySpawner = new Spawner(this, GAME_WIDTH/4, 100, 'enemy_img');
 }
 
 // called each frame
@@ -117,14 +79,11 @@ function update() {
             stars_spr.y = -GAME_HEIGHT;
         }
 
+        // updating spawner
+        enemySpawner.update();
+
         // updating game objects
         player_spr.update();
-
-        // putting enemies into an array so they can be updated
-        let enemy_ary = enemyGroup.getChildren();
-        enemy_ary.forEach(enemy => {
-            enemy.update();
-        });
 
         // updating score text
         scoreText.text = "SCORE: " + score;
