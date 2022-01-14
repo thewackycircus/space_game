@@ -40,7 +40,6 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        console.log("enemyUpdate");
 
         this.move();
         this.fire();

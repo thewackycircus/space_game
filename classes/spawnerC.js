@@ -1,9 +1,7 @@
 class Spawner extends Phaser.GameObjects.Sprite{
 
-    constructor (scene, x, y, enemyType) {
-        super(scene, x, y, enemyType);
-
-        this.enemyType = enemyType;
+    constructor (scene, x, y, enemyType, spawnDelay, maxEnemies) {
+        super(scene, x, y, enemyType, spawnDelay, maxEnemies);
 
         // making spawner invisible
         this.visible = false;
@@ -14,7 +12,10 @@ class Spawner extends Phaser.GameObjects.Sprite{
         // enemy Spawning variables
         this.enemyGroup = scene.add.group();
         this.nextEnemyTime = 0;
-        this.spawnDelay = 3000;
+        this.spawnDelay = spawnDelay;
+        this.enemyType = enemyType;
+        this.maxEnemies = maxEnemies;
+        this.noEnemies = 1;
     }
 
     // called regularly from game.js update()
@@ -31,24 +32,26 @@ class Spawner extends Phaser.GameObjects.Sprite{
     }
 
     spawn() {
-        // if enough time has passed
-        if (this.scene.time.now > this.nextEnemyTime) {
-            // initializing new enemy
-            console.log(this.texture);
+        // if max enemies has not yet been hit
+        if (this.noEnemies <= this.maxEnemies) {
+            // if enough time has passed
+            if (this.scene.time.now > this.nextEnemyTime) {
+                // initializing new enemy
 
-            switch (this.enemyType) {
-                case "enemy":
-                    this.enemyGroup.add(new Enemy(this.scene, this.x, this.y));
-                    break;
-                case "asteroid":
-                    this.enemyGroup.add(new Asteroid(this.scene, this.x, this.y));
-                    break;
+                switch (this.enemyType) {
+                    case "enemy":
+                        this.enemyGroup.add(new Enemy(this.scene, this.x, this.y));
+                        this.noEnemies += 1;
+                        break;
+                    case "asteroid":
+                        this.enemyGroup.add(new Asteroid(this.scene, this.x, this.y));
+                        this.noEnemies += 1;
+                        break;
+                }
+
+                // updating nextEnemyTime to maintain delay between spawning
+                this.nextEnemyTime = this.scene.time.now + this.spawnDelay;
             }
-
-            
-
-            // updating nextEnemyTime to maintain delay between spawning
-            this.nextEnemyTime = this.scene.time.now + this.spawnDelay;
         }
     }
 

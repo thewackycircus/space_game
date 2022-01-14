@@ -19,9 +19,9 @@ class Wave extends Phaser.GameObjects.Sprite{
 
         // instantiating enemySpawner
         console.log("test");
-        this.spawnerGroup.add(new Spawner(this.scene, GAME_WIDTH/4, 100, 'enemy'));
-        this.spawnerGroup.add(new Spawner(this.scene, (GAME_WIDTH/4)*3, 100, 'enemy'));
-        this.spawnerGroup.add(new Spawner(this.scene, GAME_WIDTH/2, 0, 'asteroid'));
+        this.spawnerGroup.add(new Spawner(this.scene, GAME_WIDTH/4, 100, 'enemy', 4000, 3));
+        this.spawnerGroup.add(new Spawner(this.scene, (GAME_WIDTH/4)*3, 100, 'enemy', 4000, 3));
+        this.spawnerGroup.add(new Spawner(this.scene, GAME_WIDTH/2, 0, 'asteroid', 3000, 5));
     }
 
     update() {
