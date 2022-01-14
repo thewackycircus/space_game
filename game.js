@@ -63,10 +63,11 @@ function create() {
     livesText.scale = 1.5;
 
     // instantiating player
-    player_spr = new Player (this, 'player_img');
+    player_spr = new Player(this, 'player_img');
 
-    // instantiating enemySpawner
-    enemySpawner = new Spawner(this, GAME_WIDTH/4, 100, 'enemy_img');
+    // instantiating wave
+    //enemySpawner = new Spawner(this, GAME_WIDTH/4, 100, 'enemy_img')
+    wave = new Wave(this, 'player_img');
 }
 
 // called each frame
@@ -79,8 +80,8 @@ function update() {
             stars_spr.y = -GAME_HEIGHT;
         }
 
-        // updating spawner
-        enemySpawner.update();
+        // updating wave
+        wave.update();
 
         // updating game objects
         player_spr.update();

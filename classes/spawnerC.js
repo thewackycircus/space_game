@@ -1,8 +1,9 @@
 class Spawner extends Phaser.GameObjects.Sprite{
 
-    constructor (scene, x, y, enemy) {
-        super(scene, x, y, enemy);
+    constructor (scene, x, y, texture) {
+        super(scene, x, y, texture);
 
+        // making spawner invisible
         this.visible = false;
 
         // adding this to scene
@@ -31,7 +32,7 @@ class Spawner extends Phaser.GameObjects.Sprite{
         // if enough time has passed
         if (this.scene.time.now > this.nextEnemyTime) {
             // initializing new enemy
-            this.enemyGroup.add(new Enemy(this.scene, this.x, this.y, this.enemy));
+            this.enemyGroup.add(new Enemy(this.scene, this.x, this.y, this.texture));
 
             // updating nextEnemyTime to maintain delay between spawning
             this.nextEnemyTime = this.scene.time.now + this.spawnDelay;
