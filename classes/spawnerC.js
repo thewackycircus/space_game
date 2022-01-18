@@ -40,11 +40,11 @@ class Spawner extends Phaser.GameObjects.Sprite{
 
                 switch (this.enemyType) {
                     case "enemy":
-                        this.enemyGroup.add(new Enemy(this.scene, this.x, this.y));
+                        this.enemyGroup.add(new Enemy(this.scene, this.x, this.y, 'enemy_img'));
                         this.noEnemies += 1;
                         break;
                     case "asteroid":
-                        this.enemyGroup.add(new Asteroid(this.scene, this.x, this.y));
+                        this.enemyGroup.add(new Asteroid(this.scene, this.x, this.y, 'asertoid_img'));
                         this.noEnemies += 1;
                         break;
                 }
