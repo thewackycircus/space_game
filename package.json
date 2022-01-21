@@ -1,0 +1,23 @@
+{
+  "name": "space_game",
+  "version": "1.0.0",
+  "description": "This project is a game i am designing and creating for my university assessment",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thewackycircus/space_game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thewackycircus/space_game/issues"
+  },
+  "homepage": "https://github.com/thewackycircus/space_game#readme",
+  "dependencies": {
+    "phaser": "^3.55.2"
+  }
+}
