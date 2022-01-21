@@ -60,10 +60,9 @@ export default class MainScene extends Phaser.Scene {
         this.livesText.scale = 1.5;
 
         // instantiating player
-        this.player_spr = new Player(this, 'player_img');
+        this.player_spr = new Player (this, this.width/2,  this.height - 100, 'player_img', );
 
         // instantiating wave
-        
         this.wave = new Wave(this);
     }
 
@@ -89,7 +88,8 @@ export default class MainScene extends Phaser.Scene {
         }
 
         else {
-            this.scene.start("UpgradeScene");
+            // opening new scene and passing it the player object
+            this.scene.start("UpgradeScene", {player: this.player_spr });
         }
     }
 }

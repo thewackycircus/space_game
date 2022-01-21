@@ -2,10 +2,8 @@ import Bullet from "./bulletC";
 
 export default class Player extends Phaser.GameObjects.Sprite {
 
-    constructor (scene, texture) {
-        super(scene, scene.width/2, scene.height - 100, texture);
-
-        this.scene = scene;
+    constructor (scene, x, y, texture) {
+        super(scene, x, y, texture);
 
         // adding this to scene and physics
         this.scene.add.existing(this);
@@ -15,7 +13,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
         // firing variables
         this.bulletGroup = this.scene.add.group();
         this.nextBulletTime = 0;
-        this.fireDelay = 200;
 
         // controls
         this.moveControls = this.scene.input.keyboard.createCursorKeys();
@@ -23,15 +20,17 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         // config variables
         this.lives = 3;
+        this.fireDelay = 200;
+        this.speed = 400;
     }
 
     update() {
 
         // movement
         if (this.moveControls.left.isDown) {
-            this.body.setVelocity(-400, 0);
+            this.body.setVelocity(-this.speed, 0);
         } else if (this.moveControls.right.isDown) {
-            this.body.setVelocity(400, 0);
+            this.body.setVelocity(this.speed, 0);
         } else {
             this.body.setVelocity(0, 0);
         }
