@@ -27,27 +27,18 @@ export default class MainScene extends Phaser.Scene {
         this.livesText;
     }
 
-    // used to load assets before game start up
-    preload() {
-        this.load.image('background_img', 'src/assets/background.png');
-        this.load.image('stars_img', 'src/assets/stars.png');
-        this.load.image('player_img', 'src/assets/player.png');
-        this.load.image('laserBullet_img', 'src/assets/laserBullet.png');
-        this.load.image('enemyBullet_img', 'src/assets/enemyBullet.png');
-        this.load.image('asteroid_img', 'src/assets/asteroid.png');
-        this.load.image('enemy_img', 'src/assets/enemy.png');
-        this.load.spritesheet('enemySpawn_sh', 'src/assets/enemySpawn.png', {
-            frameWidth: 64,
-            frameHeight: 64
-        });
-        this.load.spritesheet('asteroid_sh', 'src/assets/asteroidRotation.png', {
-            frameWidth: 64,
-            frameHeight: 64
-        });
+    init(data) {
+        // player config sent from upgrade scene
+        this.playerSpeed = data.playerSpeed;
+        this.playerFireDelay = data.playerFireDelay;
+        this.score = data.playerScore;
     }
 
     // used to create objects on game start up
     create() {
+
+        // resetting
+        this.isRunning = true;
 
         //background
         this.background_spr = this.add.sprite(0, 0, 'background_img').setOrigin(0, 0);
@@ -59,11 +50,11 @@ export default class MainScene extends Phaser.Scene {
         this.livesText = this.add.text(this.width - 120, this.height - 50, "LIVES: ", {fontFamily: 'Georgia'});
         this.livesText.scale = 1.5;
 
-        // instantiating player
-        this.player_spr = new Player (this, this.width/2,  this.height - 100, 'player_img', );
-
         // instantiating wave
         this.wave = new Wave(this);
+
+        // instantiating player
+        this.player_spr = new Player (this, this.width/2,  this.height - 100, 'player_img', this.playerSpeed, this.playerFireDelay);
     }
 
     // called each frame
@@ -89,7 +80,12 @@ export default class MainScene extends Phaser.Scene {
 
         else {
             // opening new scene and passing it the player object
-            this.scene.start("UpgradeScene", {player: this.player_spr });
+            this.scene.start("UpgradeScene", {
+                playerSpeed: this.playerSpeed,
+                playerFireDelay: this.playerFireDelay,
+                playerScore: this.score
+                }
+            );
         }
     }
 }

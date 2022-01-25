@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
-import MainScene from './src/scenes/mainS'
+import FirstScene from './src/scenes/firstS'
 import UpgradeScene from './src/scenes/upgradeS'
+import MainScene from './src/scenes/mainS'
 
 // game consts
 let GAME_WIDTH = 480;
@@ -14,10 +15,10 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            debug: false
         }
     },
-    scene: [MainScene, UpgradeScene]
+    scene: [FirstScene, UpgradeScene, MainScene]
 };
 
 const game = new Phaser.Game(config);

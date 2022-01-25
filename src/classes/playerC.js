@@ -2,8 +2,8 @@ import Bullet from "./bulletC";
 
 export default class Player extends Phaser.GameObjects.Sprite {
 
-    constructor (scene, x, y, texture) {
-        super(scene, x, y, texture);
+    constructor (scene, x, y, texture, speed, fireDelay) {
+        super(scene, x, y, texture, speed, fireDelay);
 
         // adding this to scene and physics
         this.scene.add.existing(this);
@@ -20,8 +20,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         // config variables
         this.lives = 3;
-        this.fireDelay = 200;
-        this.speed = 400;
+        this.speed = speed;
+        this.fireDelay = fireDelay;
     }
 
     update() {
