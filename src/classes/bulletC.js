@@ -17,7 +17,7 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         this.body.setVelocity(0, this.speed);
 
         // destroy bullets if they have left screen
-        if (this.body.y < -10 || this.body.y > this.scene.height + 10) {
+        if (this.body.y < -10 || this.body.y > this.scene.height) {
             this.destroy();
         }
     }

@@ -34,7 +34,7 @@ class Asteroid extends Phaser.GameObjects.Sprite {
 
     update() {
         // destroy this if it has left screen
-        if (this.body.y > this.scene.height + 10) {
+        if (this.body.y > this.scene.height) {
             this.destroy();
         }
     }
