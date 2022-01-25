@@ -44,6 +44,11 @@ export default class MainScene extends Phaser.Scene {
         this.background_spr = this.add.sprite(0, 0, 'background_img').setOrigin(0, 0);
         this.stars_spr = this.add.sprite(0, 0, 'stars_img').setOrigin(0, 0);
 
+        // music loop
+        this.music = this.sound.add('mainLoop');
+        this.music.play();
+        this.music.setLoop(true);
+
         // instantiating text
         this.scoreText = this.add.text(25, this.height - 50, "SCORE: ", {fontFamily: 'Georgia'});
         this.scoreText.scale = 1.5;
@@ -79,6 +84,10 @@ export default class MainScene extends Phaser.Scene {
         }
 
         else {
+
+            // stopping music
+            this.music.stop();
+
             // opening new scene and passing it the player object
             this.scene.start("UpgradeScene", {
                 playerSpeed: this.playerSpeed,

@@ -29,21 +29,28 @@ export default class FirstScene extends Phaser.Scene {
 
     // used to load assets before game start up
     preload() {
-        this.load.image('background_img', 'src/assets/background.png');
-        this.load.image('stars_img', 'src/assets/stars.png');
-        this.load.image('player_img', 'src/assets/player.png');
-        this.load.image('laserBullet_img', 'src/assets/laserBullet.png');
-        this.load.image('enemyBullet_img', 'src/assets/enemyBullet.png');
-        this.load.image('asteroid_img', 'src/assets/asteroid.png');
-        this.load.image('enemy_img', 'src/assets/enemy.png');
-        this.load.spritesheet('enemySpawn_sh', 'src/assets/enemySpawn.png', {
+        this.load.image('background_img', 'src/assets/images/background.png');
+        this.load.image('stars_img', 'src/assets/images/stars.png');
+        this.load.image('player_img', 'src/assets/images/player.png');
+        this.load.image('laserBullet_img', 'src/assets/images/laserBullet.png');
+        this.load.image('enemyBullet_img', 'src/assets/images/enemyBullet.png');
+        this.load.image('asteroid_img', 'src/assets/images/asteroid.png');
+        this.load.image('enemy_img', 'src/assets/images/enemy.png');
+        this.load.spritesheet('enemySpawn_sh', 'src/assets/images/enemySpawn.png', {
             frameWidth: 64,
             frameHeight: 64
         });
-        this.load.spritesheet('asteroid_sh', 'src/assets/asteroidRotation.png', {
+        this.load.spritesheet('asteroid_sh', 'src/assets/images/asteroidRotation.png', {
             frameWidth: 64,
             frameHeight: 64
         });
+
+        this.load.audio('enemyShoot_sfx', 'src/assets/audio/laser4.wav');
+        this.load.audio('playerShoot_sfx', 'src/assets/audio/laser7.wav');
+        this.load.audio('enemyDeath_sfx', 'src/assets/audio/sfx_explosionnormal.ogg');
+        this.load.audio('playerHurt_sfx', 'src/assets/audio/sfx_shocked.ogg');
+
+        this.load.audio('mainLoop', 'src/assets/audio/OrbitalColossus.mp3');
     }
 
     // used to create objects on game start up
@@ -52,6 +59,11 @@ export default class FirstScene extends Phaser.Scene {
         //background
         this.background_spr = this.add.sprite(0, 0, 'background_img').setOrigin(0, 0);
         this.stars_spr = this.add.sprite(0, 0, 'stars_img').setOrigin(0, 0);
+
+        // music loop
+        this.music = this.sound.add('mainLoop');
+        this.music.play();
+        this.music.setLoop(true);
 
         // instantiating text
         this.scoreText = this.add.text(25, this.height - 50, "SCORE: ", {fontFamily: 'Georgia'});
@@ -88,6 +100,9 @@ export default class FirstScene extends Phaser.Scene {
         }
 
         else {
+            //stop music
+            this.music.stop();
+            
             // opening new scene and passing it the player object
             this.scene.start("UpgradeScene", {
                 playerSpeed: this.player_spr.speed,

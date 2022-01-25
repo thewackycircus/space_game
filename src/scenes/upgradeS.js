@@ -28,14 +28,17 @@ export default class UpgradeScene extends Phaser.Scene{
     // used to load assets before game start up
     preload() {
         // buttons
-        this.load.image('speedIcon_img', 'src/assets/speedIcon.png');
-        this.load.image('offenceIcon_img', 'src/assets/offenceIcon.png');
-        this.load.image('nextIcon_img', 'src/assets/nextIcon.png');
+        this.load.image('speedIcon_img', 'src/assets/images/speedIcon.png');
+        this.load.image('offenceIcon_img', 'src/assets/images/offenceIcon.png');
+        this.load.image('nextIcon_img', 'src/assets/images/nextIcon.png');
 
         // pressed icons
-        this.load.image('speedIconPressed_img', 'src/assets/speedIconPressed.png');
-        this.load.image('offenceIconPressed_img', 'src/assets/offenceIconPressed.png');
-        this.load.image('nextIconPressed_img', 'src/assets/nextIconPressed.png');
+        this.load.image('speedIconPressed_img', 'src/assets/images/speedIconPressed.png');
+        this.load.image('offenceIconPressed_img', 'src/assets/images/offenceIconPressed.png');
+        this.load.image('nextIconPressed_img', 'src/assets/images/nextIconPressed.png');
+
+        // music
+        this.load.audio('upgradeLoop', 'src/assets/audio/ThisGameIsOver.wav');
     }
 
     // used to create objects on game start up
@@ -44,6 +47,11 @@ export default class UpgradeScene extends Phaser.Scene{
         // background
         this.background_spr = this.add.sprite(0, 0, 'background_img').setOrigin(0, 0);
         this.stars_spr = this.add.sprite(0, 0, 'stars_img').setOrigin(0, 0);
+
+        // music loop
+        this.music = this.sound.add('upgradeLoop');
+        this.music.play();
+        this.music.setLoop(true);
 
         // text
         this.pointsText = this.add.text(this.width/2 - 65, 100, 'POINTS: ' + this.playerScore, {fontFamily: 'Georgia'});
@@ -115,6 +123,11 @@ export default class UpgradeScene extends Phaser.Scene{
     }
 
     next() {
+
+        //stop music
+        this.music.stop();
+
+        // open main scene
         this.scene.start("MainScene", {
                 playerSpeed: this.playerSpeed,
                 playerFireDelay: this.playerFireDelay,

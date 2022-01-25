@@ -65,7 +65,10 @@ export default class Spawner extends Phaser.GameObjects.Sprite{
         // playerBullets vs enemies
         this.scene.physics.add.collider(this.scene.player_spr.bulletGroup, this.enemyGroup, (bullet, enemy) => {
             bullet.destroy();
+
             enemy.destroy();
+            this.scene.sound.play('enemyDeath_sfx');
+
             this.scene.score += enemy.points;
         });
 
@@ -75,13 +78,17 @@ export default class Spawner extends Phaser.GameObjects.Sprite{
             // enemy bullets vs player
             enemy.scene.physics.add.collider(enemy.scene.player_spr, enemy.bulletGroup, (player, bullet) => {
                 bullet.destroy();
+
                 player.lives -= 1;
+                player.scene.sound.play('playerHurt_sfx');
             });
     
             // checking if enemy has hit player
             enemy.scene.physics.add.collider(enemy.scene.player_spr, enemy, (player, enemy) => {
                 enemy.destroy();
+
                 player.lives -= 1;
+                player.scene.sound.play('playerHurt_sfx');
             });
         });
     }

@@ -60,6 +60,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
             // initializing new bullet
             bulletGroup.add(new Bullet(this.scene, this.body.x + this.width/2, this.body.y, 'laserBullet_img', -400));
+            this.scene.sound.play('playerShoot_sfx');
 
             //resetting nextbulletTime to hold delay between bullets firing
             this.nextBulletTime = this.scene.time.now + this.fireDelay;

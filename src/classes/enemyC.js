@@ -78,6 +78,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         if (this.scene.time.now > this.nextBulletTime) {
             // initializing new bullet
             this.bulletGroup.add(new Bullet(this.scene, this.body.x + this.width/2, this.body.y, 'enemyBullet_img', 400));
+            this.scene.sound.play('enemyShoot_sfx');
 
             //resetting nextbulletTime to hold delay between bullets firing
             this.nextBulletTime = this.scene.time.now + this.fireDelay;
