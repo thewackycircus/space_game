@@ -99,10 +99,18 @@ export default class UpgradeScene extends Phaser.Scene{
 
     speedIncrease() {
 
+        
+
         // check if enough points
         if (this.playerScore >= 10) {
 
+            // sound effect
+            this.sound.play('enemyShoot_sfx');
+
+            // change button texture
             this.speedIcon_spr.setTexture('speedIconPressed_img');
+
+            // increase stat
             this.playerSpeed += 10;
 
             // spend points
@@ -114,7 +122,13 @@ export default class UpgradeScene extends Phaser.Scene{
 
         if (this.playerScore >= 20 && this.playerFireDelay > 50) {
 
+            // sound effect
+            this.sound.play('enemyShoot_sfx');
+
+            // change button texture
             this.offenceIcon_spr.setTexture('offenceIconPressed_img');
+
+            // increases stat
             this.playerFireDelay -= 10;
 
             // spend points
