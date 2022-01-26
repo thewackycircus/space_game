@@ -99,8 +99,6 @@ export default class UpgradeScene extends Phaser.Scene{
 
     speedIncrease() {
 
-        
-
         // check if enough points
         if (this.playerScore >= 10) {
 

@@ -12,8 +12,10 @@ export default class Spawner extends Phaser.GameObjects.Sprite{
         // adding this to scene
         this.scene.add.existing(this);
 
-        // enemy Spawning variables
+        // group to store enemies in
         this.enemyGroup = scene.add.group();
+
+        // enemy Spawning variables
         this.nextEnemyTime = 0;
         this.spawnDelay = spawnDelay;
         this.enemyType = enemyType;
@@ -64,30 +66,45 @@ export default class Spawner extends Phaser.GameObjects.Sprite{
     
         // playerBullets vs enemies
         this.scene.physics.add.collider(this.scene.player_spr.bulletGroup, this.enemyGroup, (bullet, enemy) => {
-            bullet.destroy();
 
+            // destroying involved game objects
+            bullet.destroy();
             enemy.destroy();
+
+            // playing sound
             this.scene.sound.play('enemyDeath_sfx');
 
+            // adding points
             this.scene.score += enemy.points;
         });
 
         // checking each enemy
         let enemy_ary = this.enemyGroup.getChildren();
         enemy_ary.forEach(function(enemy) {
+
             // enemy bullets vs player
             enemy.scene.physics.add.collider(enemy.scene.player_spr, enemy.bulletGroup, (player, bullet) => {
+
+                // destroying bullet
                 bullet.destroy();
 
+                // updating player lives
                 player.lives -= 1;
+
+                //playing sound
                 player.scene.sound.play('playerHurt_sfx');
             });
     
             // checking if enemy has hit player
             enemy.scene.physics.add.collider(enemy.scene.player_spr, enemy, (player, enemy) => {
+
+                // destroying enemy
                 enemy.destroy();
 
+                // updating player lives
                 player.lives -= 1;
+
+                // playing sound
                 player.scene.sound.play('playerHurt_sfx');
             });
         });

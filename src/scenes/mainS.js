@@ -59,7 +59,13 @@ export default class MainScene extends Phaser.Scene {
         this.wave = new Wave(this);
 
         // instantiating player
-        this.player_spr = new Player (this, this.width/2,  this.height - 100, 'player_img', this.playerSpeed, this.playerFireDelay);
+        this.player_spr = new Player (
+            this, 
+            this.width/2,  
+            this.height - 100, 'player_img', 
+            this.playerSpeed, 
+            this.playerFireDelay
+        );
     }
 
     // called each frame
