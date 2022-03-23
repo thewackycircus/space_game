@@ -38,10 +38,6 @@ class Asteroid extends Phaser.GameObjects.Sprite {
             this.destroy();
         }
     }
-
-    getScore() {
-        return this.score;
-    }
 }
 
 export default Asteroid
